@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+// const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = "http://localhost:3001";
 
 /** API Class.
  *
@@ -39,14 +40,59 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    return res.company;
+    let data = await this.request(`companies/${handle}`);
+    return data.company;
   }
 
   // obviously, you'll add a lot here ...
+
+  /** Search companies */
+  static async searchCompanies(searchObj) {
+    let data = await this.request('companies/', searchObj)
+    return data;
+  }
+
+  /** Get all jobs */
+  static async getJobs() {
+    let data = await this.request('jobs');
+    return data.jobs;
+  }
+
+  /** Login */
+  static async login(username, password) {
+    let data = await this.request('auth/token', {username, password}, 'POST');
+    return data;
+  }
+
+  /** With token, get details on specific user */
+  static async getUser(username) {
+    let data = await this.request(`users/${username}`);
+    return data;
+  }
+
+  /** Register a user */
+  static async register(userObj) {
+    let data = await this.request(`auth/register`, userObj, 'POST')
+    return data;
+  }
+
+  /** Edit a user */
+  static async editUser(username, userObj) {
+    let data = await this.request(`users/${username}`, userObj, 'PATCH');
+    return data;
+  }
+
+  /** Apply for a job */
+  static async apply(username, jobId) {
+    let data = await this.request(`users/${username}/jobs/${jobId}`, null, 'POST');
+    return data;
+  }
 }
 
 // for now, put token ("testuser" / "password" on class)
 JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+
+
+export default JoblyApi;
