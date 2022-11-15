@@ -1,14 +1,6 @@
-import JoblyApi from "../api";
 import {useContext} from 'react';
 import LoginContext from "../helpers/LoginContext";
 
-// I need access to the list of applied-to jobs
-/**
- * I need access to the list of applied-to jobs
- * OR I need to have the Jobs and CompanyJobs components 
- * handle the render that indicates whether or not 
- * these were applied to.
- */
 
 function Job({id, title, salary, equity}) {
 
